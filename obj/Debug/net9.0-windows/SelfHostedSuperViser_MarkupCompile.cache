@@ -1,5 +1,5 @@
 ﻿SelfHostedSuperViser
-1.0.0.0
+
 
 winexe
 C#
@@ -12,7 +12,7 @@ TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 C:\Users\User\Seafile\My Library\Visual Studio Projekter\SelfHostedSuperViser\SelfHostedSuperViser\App.xaml
 11407045341
 
-71273528879
+52100956101
 200161758370
 MainWindow.xaml;
 
