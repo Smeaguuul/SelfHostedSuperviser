@@ -7,12 +7,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace SelfHostedSuperViser.Model
+namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
 {
     public class APIGetter
     {
 
-        public static async Task<List<APIValue>> APIGet(String apiURL, String[] names, Header[] headers)
+        public static async Task<List<APIValue>> APIGet(string apiURL, string[] names, Header[] headers)
         {
             HttpClient HttpClient = new();
             foreach (var header in headers)
@@ -53,8 +53,8 @@ namespace SelfHostedSuperViser.Model
 
     public class APIValue
     {
-        public required String Value { get; set; }
-        public required String Name { get; set; }
+        public required string Value { get; set; }
+        public required string Name { get; set; }
     }
 
     public class Header

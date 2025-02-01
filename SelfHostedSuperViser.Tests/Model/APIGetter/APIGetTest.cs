@@ -1,5 +1,5 @@
 using System.Xml.Linq;
-using SelfHostedSuperViser.Model;
+using SelfHostedSuperViser.Model.APIGetter.APIGetter;
 
 namespace SelfHostedSuperViser.Tests.Model;
 
