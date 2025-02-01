@@ -12,9 +12,9 @@ using SelfHostedSuperViser.Model.APIGetter.APIGetter;
 
 namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
 {
-    public class AdguardHome
+    public class AdguardHome : WebsiteAPIModel
     {
-        public static List<APIValue> CallAPI()
+        public List<APIValue> CallAPI()
         {
             // Get the path to the solution directory
             string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
