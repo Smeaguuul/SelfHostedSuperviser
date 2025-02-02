@@ -41,7 +41,7 @@
 
             <Grid Name="Websites" Grid.Column="1">
                 <TextBlock Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="26" Foreground="#DDDDDD" FontFamily="Segoe UI Symbol" >Welcome To Your Overview!</TextBlock>
-                <WrapPanel Height="360">
+                <!--<WrapPanel Height="360">
                     <Grid Width="160" Height="60" Background="#666666" Opacity="0.4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20" />
@@ -55,7 +55,7 @@
                         <TextBlock Text="AdguardHome" Foreground="White" HorizontalAlignment="Center" Grid.ColumnSpan="3"/>
                         <TextBlock Grid.Row="1" FontSize="9" Foreground="#ffffff"> DNS Queries <LineBreak/> 4.600.321</TextBlock>
                     </Grid>
-                </WrapPanel>
+                </WrapPanel>-->
                 <Button x:Name="UpdateButton" Command="{Binding RefreshWebsiteData}" Height="20" Width="60" VerticalAlignment="Bottom" Content="Update"/>
             </Grid>
         </Grid>

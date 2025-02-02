@@ -43,25 +43,62 @@ namespace SelfHostedSuperViser.View
         {
             if (_viewModel.WebsiteAPIData.Count != 0)
             {
+                var wrapPanel = new WrapPanel() { Height = 360 };
                 for (int i = 0; i < _viewModel.WebsiteAPIData.Count; i++)
                 {
-                    Websites.Children.Add(GetAPIDataElement(_viewModel.WebsiteAPIData[i]));
+                    wrapPanel.Children.Add(GetAPIDataElement(_viewModel.WebsiteAPIData[i]));
                     //myTextBlock.SetBinding(TextBox.TextProperty, new Binding("FirstValue"));
                 }
+                Websites.Children.Add(wrapPanel);
             }
         }
 
-        private TextBlock GetAPIDataElement (List<APIValue> aPIValues)
+        private Grid GetAPIDataElement (List<APIValue> aPIValues)
         {
-            var myTextBlock = new TextBlock();
-            myTextBlock.Foreground = new SolidColorBrush(Colors.White);
-            myTextBlock.FontSize = 26;
-            myTextBlock.Width = 60;
-            myTextBlock.Height = 40;
-            myTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
-            myTextBlock.VerticalAlignment = VerticalAlignment.Center;
-            myTextBlock.Text = aPIValues[0].Value;
-            return myTextBlock;
+            var websiteGrid = new Grid()
+            {
+                Width = 160,
+                Height = 60,
+                Background = new SolidColorBrush(Color.FromRgb(126,126,126)),
+                Opacity = 0.4
+            };
+            var row1 = new RowDefinition() { Height = new GridLength(20) };
+            var row2 = new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) };  
+
+            websiteGrid.RowDefinitions.Add(row1);
+            websiteGrid.RowDefinitions.Add(row2);
+            
+            // -1, fordi vi ikke tæller website navn med
+            for (int i = 0;i < aPIValues.Count - 1;i++)
+            {
+                var column1 = new ColumnDefinition();
+                column1.Width = new GridLength(1, GridUnitType.Star);
+                websiteGrid.ColumnDefinitions.Add(column1);
+            }
+
+            var websiteTitle = new TextBlock()
+            {
+                Foreground = new SolidColorBrush(Color.FromRgb(255,255,255)),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Text = aPIValues.Find((value) => value.Name == "Website").Value,
+            };
+            Grid.SetColumnSpan(websiteTitle, 3);
+            Grid.SetRow(websiteTitle, 0);
+            websiteGrid.Children.Add(websiteTitle);
+
+            for (int i = 0; i < aPIValues.Count - 1; i++)
+            {
+                var myTextBlock = new TextBlock();
+                myTextBlock.Foreground = new SolidColorBrush(Colors.White);
+                myTextBlock.FontSize = 9;
+                myTextBlock.Background = new SolidColorBrush(Color.FromRgb(126, 126, 126));
+                myTextBlock.Text = aPIValues[i].Name + Environment.NewLine + aPIValues[i].Value;
+                Grid.SetColumn(myTextBlock, i);
+                Grid.SetRow(myTextBlock, 1);
+                websiteGrid.Children.Add(myTextBlock);
+            }
+
+            return websiteGrid;
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

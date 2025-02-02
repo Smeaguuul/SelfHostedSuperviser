@@ -49,6 +49,7 @@ namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
             };
             var result = await APIGetter.APIGetter.APIGet(url, names, headers);
 
+            result.Add(new APIValue() { Name = "Website", Value = "AdguardHome" });
             return result;
         }
     }
