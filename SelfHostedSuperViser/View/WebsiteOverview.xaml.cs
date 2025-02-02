@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SelfHostedSuperViser.Model.APIGetter.APIGetter;
 using SelfHostedSuperViser.ViewModel;
 
 namespace SelfHostedSuperViser.View
@@ -25,14 +26,42 @@ namespace SelfHostedSuperViser.View
         {
             InitializeComponent();
             _viewModel = new WebsiteInfoGetter();
-            DataContext = _viewModel;
-            //AddWebsiteInfo();
+            this.DataContext = _viewModel;
+
+            //Fire and forget, no await necessary
+            LoadDataAsync();
+        }
+
+        private async void LoadDataAsync()
+        {
+            await _viewModel.UpdateData();
+
+            AddWebsiteInfo();
         }
 
         private void AddWebsiteInfo()
         {
-            var myTextBlock = new TextBlock { Text = _viewModel.WebsiteAPIData[0][0].Name };
-            Websites.Children.Add(myTextBlock);
+            if (_viewModel.WebsiteAPIData.Count != 0)
+            {
+                for (int i = 0; i < _viewModel.WebsiteAPIData.Count; i++)
+                {
+                    Websites.Children.Add(GetAPIDataElement(_viewModel.WebsiteAPIData[i]));
+                    //myTextBlock.SetBinding(TextBox.TextProperty, new Binding("FirstValue"));
+                }
+            }
+        }
+
+        private TextBlock GetAPIDataElement (List<APIValue> aPIValues)
+        {
+            var myTextBlock = new TextBlock();
+            myTextBlock.Foreground = new SolidColorBrush(Colors.White);
+            myTextBlock.FontSize = 26;
+            myTextBlock.Width = 60;
+            myTextBlock.Height = 40;
+            myTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            myTextBlock.VerticalAlignment = VerticalAlignment.Center;
+            myTextBlock.Text = aPIValues[0].Value;
+            return myTextBlock;
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

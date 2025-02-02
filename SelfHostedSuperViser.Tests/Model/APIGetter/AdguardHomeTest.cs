@@ -6,12 +6,12 @@ namespace SelfHostedSuperViser.Tests;
 public class AdguardHomeTest
 {
     [TestMethod]
-    public void TestMethod1()
+    public async Task TestMethod1()
     {
         // Arrange
 
         //Act
-        var result = AdguardHome.CallAPI();
+        var result = await AdguardHome.CallAPIAsync();
 
         //Assert
         Assert.IsNotNull(result);

@@ -14,7 +14,7 @@ namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
 {
     public class AdguardHome : WebsiteAPIModel
     {
-        public List<APIValue> CallAPI()
+        public static async Task<List<APIValue>> CallAPIAsync()
         {
             // Get the path to the solution directory
             string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
@@ -41,13 +41,13 @@ namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
             var authorization = Convert.ToBase64String(plainTextBytes);
             var headers = new Header[]
             {
-            new()
-            {
-                Name = "Authorization",
-                Value = "Basic " + authorization,
-            }
+                new()
+                {
+                    Name = "Authorization",
+                    Value = "Basic " + authorization,
+                }
             };
-            var result = APIGetter.APIGetter.APIGet(url, names, headers).GetAwaiter().GetResult();
+            var result = await APIGetter.APIGetter.APIGet(url, names, headers);
 
             return result;
         }

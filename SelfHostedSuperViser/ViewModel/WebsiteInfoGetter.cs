@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -22,14 +23,11 @@ namespace SelfHostedSuperViser.ViewModel
             get => _websiteAPIData;
             set
             {
-                if (_websiteAPIData != value)
-                {
-                    _websiteAPIData = value;
-                    OnPropertyChanged(nameof(WebsiteAPIData)); // Notify the UI that the property has changed
-                }
+                _websiteAPIData = value;
+                OnPropertyChanged(nameof(WebsiteAPIData)); // Notify the UI that the property has changed
             }
         }
-        private ObservableCollection<WebsiteAPIModel> websiteAPIModels;
+        private ObservableCollection<Expression<Func<Task<List<APIValue>>>>> websiteAPIModels;
 
         public WebsiteInfoGetter()
         {
@@ -37,17 +35,18 @@ namespace SelfHostedSuperViser.ViewModel
             websiteAPIModels = [];
             RefreshWebsiteData = new UpdateWebsiteInfoCommand { WebsiteInfoGetter = this };
 
-            websiteAPIModels.Add(new AdguardHome());
-
-            UpdateData();
+            websiteAPIModels.Add(() => AdguardHome.CallAPIAsync());
         }
 
-        public void UpdateData()
+        public async Task UpdateData()
         {
             ObservableCollection<List<APIValue>> TempData = [];
-            foreach (var website in websiteAPIModels)
+            foreach (var apiCall in websiteAPIModels)
             {
-                TempData.Add(website.CallAPI());
+                var func = apiCall.Compile();
+                // Execute the delegate
+                List<APIValue> result = await func();
+                TempData.Add(result);
             }
             WebsiteAPIData = TempData;
         }

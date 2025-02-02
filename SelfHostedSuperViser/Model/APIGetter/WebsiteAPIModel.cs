@@ -9,6 +9,6 @@ namespace SelfHostedSuperViser.Model.APIGetter
 {
     public interface WebsiteAPIModel
     {
-        public abstract List<APIValue> CallAPI();
+        public static abstract Task<List<APIValue>> CallAPIAsync();
     }
 }
