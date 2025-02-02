@@ -13,12 +13,12 @@ namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
     public class APIGetter
     {
         private static readonly HttpClient HttpClient = new HttpClient();
-        public static async Task<List<APIValue>> APIGet(string apiURL, string[] names, Header[] headers)
+        public static async Task<List<APIValue>> APIGet(string apiURL, List<string> names, Dictionary<string, string> headers)
         {
             HttpClient.DefaultRequestHeaders.Clear();
             foreach (var header in headers)
             {
-                HttpClient.DefaultRequestHeaders.Add(header.Name, header.Value);
+                HttpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
             }
 
             HttpResponseMessage response = await HttpClient.GetAsync(apiURL);
