@@ -37,6 +37,7 @@ namespace SelfHostedSuperViser.ViewModel
 
             websiteAPIModels.Add(() => new AdguardHome().CallAPIAsync());
             websiteAPIModels.Add(() => new Immich().CallAPIAsync());
+            websiteAPIModels.Add(() => new Traefik().CallAPIAsync());
         }
 
         public async Task UpdateData()

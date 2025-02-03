@@ -13,7 +13,7 @@ namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
     public class APIGetter
     {
         private static readonly HttpClient HttpClient = new HttpClient();
-        public static async Task<List<APIValue>> APIGet(string apiURL, List<string> names, Dictionary<string, string> headers)
+        public static async Task<List<APIValue>> APIGet(string apiURL, List<List<string>> names, Dictionary<string, string> headers)
         {
             HttpClient.DefaultRequestHeaders.Clear();
             foreach (var header in headers)
@@ -27,21 +27,23 @@ namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
             var jsonObject = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
 
             List<APIValue> APIValues = new List<APIValue>();
-            foreach (var name in names)
+            foreach (var nameList in names)
             {
                 string value;
                 try
                 {
-                    value = jsonObject.RootElement.GetProperty(name).GetRawText();
+                    JsonElement tempObj = jsonObject.RootElement;
+                    nameList.ForEach(x => { tempObj = tempObj.GetProperty(x); });
+                    value = tempObj.GetRawText();
                 }
                 catch
                 {
-                    throw new ArgumentException($"API property {name} doesn't exist!");
+                    throw new ArgumentException($"API property {nameList[nameList.Count - 1]} doesn't exist!");
                 }
 
                 var APIValue = new APIValue()
                 {
-                    Name = name,
+                    Name = nameList[nameList.Count - 1],
                     Value = value,
                 };
 

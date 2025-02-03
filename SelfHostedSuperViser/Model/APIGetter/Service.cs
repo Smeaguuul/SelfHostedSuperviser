@@ -21,7 +21,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
             var jsonElement = GetJsonFile("APICalls.json").GetProperty(GetWebsiteName()); ;
             var secretsElement = GetJsonFile("Secrets.json");
 
-            List<string> names = GetNames(jsonElement);
+            List<List<string>> names = GetNames(jsonElement);
 
             Dictionary<string, string> headers = GetHeaders(secretsElement);
 
@@ -40,16 +40,22 @@ namespace SelfHostedSuperViser.Model.APIGetter
         {
             return jsonElement.GetProperty("BaseUrl").GetString() + GetEndpoint();
         }
-        protected static List<string> GetNames(JsonElement jsonElement)
+        protected static List<List<string>> GetNames(JsonElement jsonElement)
         {
-            List<string> names = [];
+            List<List<string>> names = [];
 
+            // "names" er en array af string arrays.
             JsonElement namesElement = jsonElement.GetProperty("names");
             if (namesElement.ValueKind == JsonValueKind.Array)
             {
-                foreach (JsonElement name in namesElement.EnumerateArray())
+                foreach (JsonElement nameArray in namesElement.EnumerateArray())
                 {
-                    names.Add(name.GetString());
+                    List<string> apiValues = [];
+                    foreach(var name in nameArray.EnumerateArray())
+                    {
+                        apiValues.Add(name.GetString());
+                    }
+                    names.Add(apiValues);
                 }
             }
             return names;
