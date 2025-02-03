@@ -11,7 +11,7 @@ public class AdguardHomeTest
         // Arrange
 
         //Act
-        var result = await AdguardHome.CallAPIAsync();
+        var result = await new AdguardHome().CallAPIAsync();
 
         //Assert
         Assert.IsNotNull(result);

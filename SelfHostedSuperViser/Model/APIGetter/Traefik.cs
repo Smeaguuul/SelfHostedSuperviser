@@ -1,31 +1,24 @@
 ﻿using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using SelfHostedSuperViser.Model.APIGetter.APIGetter;
-using System.Text.Json.Nodes;
-using System.Configuration;
 
-namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
+namespace SelfHostedSuperViser.Model.APIGetter
 {
-    public class AdguardHome : Service
+    internal class Traefik : Service
     {
         protected override string GetEndpoint()
         {
-            return "/control/stats";
+            return "/api/overview";
         }
 
         protected override Dictionary<string, string> GetHeaders(JsonElement jsonElement)
         {
-            var password = jsonElement.GetProperty("adguardhome_pwd").GetString();
-            var username = jsonElement.GetProperty("adguardhome_usr").GetString();
-            
+            var password = jsonElement.GetProperty("traefik_pwd").GetString();
+            var username = jsonElement.GetProperty("traefik_usr").GetString();
+
 
             var plainTextBytes = Encoding.UTF8.GetBytes(username + ":" + password);
             var authorization = Convert.ToBase64String(plainTextBytes);
@@ -39,7 +32,7 @@ namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
 
         protected override string GetWebsiteName()
         {
-            return "AdguardHome";
+            return "Traefik";
         }
     }
 }

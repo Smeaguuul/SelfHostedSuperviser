@@ -1,12 +1,18 @@
 {
 	"AdguardHome": {
-		"UserName": "coomshack",
-		"Password": "SmikNotSimp",
 		"BaseUrl": "http://192.168.1.1:3000",
 		"names": [
 			"num_dns_queries",
 			"num_blocked_filtering",
 			"avg_processing_time"
+		]
+	},
+	"Immich": {
+		"BaseUrl": "https://immich.coomshack.com",
+		"names": [
+			"photos",
+			"videos",
+			"usage"
 		]
 	}
 }

@@ -35,7 +35,8 @@ namespace SelfHostedSuperViser.ViewModel
             websiteAPIModels = [];
             RefreshWebsiteData = new UpdateWebsiteInfoCommand { WebsiteInfoGetter = this };
 
-            websiteAPIModels.Add(() => AdguardHome.CallAPIAsync());
+            websiteAPIModels.Add(() => new AdguardHome().CallAPIAsync());
+            websiteAPIModels.Add(() => new Immich().CallAPIAsync());
         }
 
         public async Task UpdateData()

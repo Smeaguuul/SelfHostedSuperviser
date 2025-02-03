@@ -7,7 +7,9 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using SelfHostedSuperViser.Model.APIGetter.APIGetter;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SelfHostedSuperViser.Model.APIGetter
 {
@@ -15,13 +17,13 @@ namespace SelfHostedSuperViser.Model.APIGetter
     {
         public async Task<List<APIValue>> CallAPIAsync()
         {
-            var text = GetFileText();
 
-            JsonElement jsonElement = GetJsonElement(text);
+            var jsonElement = GetJsonFile("APICalls.json").GetProperty(GetWebsiteName()); ;
+            var secretsElement = GetJsonFile("Secrets.json");
 
             List<string> names = GetNames(jsonElement);
 
-            Dictionary<string, string> headers = GetHeaders(jsonElement);
+            Dictionary<string, string> headers = GetHeaders(secretsElement);
 
             string url = GetUrl(jsonElement);
 
@@ -33,15 +35,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
 
         protected abstract string GetEndpoint();
         protected abstract Dictionary<string, string> GetHeaders(JsonElement jsonElement);
-
-        protected string GetWebsiteName()
-        {
-            return jsonObject.GetProperty("BaseUrl").GetString();
-        }
-        protected JsonElement GetJsonElement(string text)
-        {
-            return JsonDocument.Parse(text).RootElement.GetProperty(GetWebsiteName());
-        }
+        protected abstract string GetWebsiteName();
         protected string GetUrl(JsonElement jsonElement)
         {
             return jsonElement.GetProperty("BaseUrl").GetString() + GetEndpoint();
@@ -60,16 +54,17 @@ namespace SelfHostedSuperViser.Model.APIGetter
             }
             return names;
         }
-        private static string GetFileText()
+        private JsonElement GetJsonFile(string fileName)
         {
             // Get the path to the solution directory
             string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
 
             // Combine the solution directory with the file name
-            string filePath = Path.Combine(solutionDirectory, "SelfHostedSuperViser", "APICalls.json");
+            string filePath = Path.Combine(solutionDirectory, "SelfHostedSuperViser", fileName);
             StreamReader reader = new(filePath);
+            var text =  reader.ReadToEnd();
 
-            return reader.ReadToEnd();
+            return JsonDocument.Parse(text).RootElement;
         }
     }
 }
