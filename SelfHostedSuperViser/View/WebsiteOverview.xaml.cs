@@ -133,5 +133,11 @@ namespace SelfHostedSuperViser.View
         {
             Application.Current.Shutdown();
         }
+
+        private void Outermost_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
     }
 }

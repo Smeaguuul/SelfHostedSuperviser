@@ -9,7 +9,7 @@
         WindowStyle="None"
         Background="#222222"
         Title="WebsiteOverview" Height="720" Width="1280">
-    <Grid x:Name="Outermost">
+    <Grid x:Name="Outermost" MouseLeftButtonDown="Outermost_MouseLeftButtonDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
