@@ -21,7 +21,7 @@ namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
             return "/control/stats";
         }
 
-        protected override Task<Dictionary<string, string>> GetHeaders(JsonElement jsonElement)
+        protected async override Task<Dictionary<string, string>> GetHeaders(JsonElement jsonElement)
         {
             var password = jsonElement.GetProperty("adguardhome_pwd").GetString();
             var username = jsonElement.GetProperty("adguardhome_usr").GetString();
@@ -34,7 +34,7 @@ namespace SelfHostedSuperViser.Model.APIGetter.AdguardHome
                 { "Authorization", "Basic " + authorization }
             };
 
-            return new Task<Dictionary<string, string>>(() => headers);
+            return headers;
         }
 
         protected override string GetWebsiteName()

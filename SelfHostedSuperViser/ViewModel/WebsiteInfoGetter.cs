@@ -36,9 +36,9 @@ namespace SelfHostedSuperViser.ViewModel
             RefreshWebsiteData = new UpdateWebsiteInfoCommand { WebsiteInfoGetter = this };
 
             websiteAPIModels.Add(() => new NginxProxyManager().CallAPIAsync());
-            //websiteAPIModels.Add(() => new AdguardHome().CallAPIAsync());
-            //websiteAPIModels.Add(() => new Immich().CallAPIAsync());
-            //websiteAPIModels.Add(() => new Traefik().CallAPIAsync());
+            websiteAPIModels.Add(() => new AdguardHome().CallAPIAsync());
+            websiteAPIModels.Add(() => new Immich().CallAPIAsync());
+            websiteAPIModels.Add(() => new Traefik().CallAPIAsync());
         }
 
         public async Task UpdateData()

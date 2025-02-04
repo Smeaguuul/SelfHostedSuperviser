@@ -14,7 +14,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
             return "/api/overview";
         }
 
-        protected override Task<Dictionary<string, string>> GetHeaders(JsonElement jsonElement)
+        protected async override Task<Dictionary<string, string>> GetHeaders(JsonElement jsonElement)
         {
             var password = jsonElement.GetProperty("traefik_pwd").GetString();
             var username = jsonElement.GetProperty("traefik_usr").GetString();
@@ -27,7 +27,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
                 { "Authorization", "Basic " + authorization }
             };
 
-            return new Task<Dictionary<string, string>>(() => headers);
+            return headers;
         }
 
         protected override string GetWebsiteName()
