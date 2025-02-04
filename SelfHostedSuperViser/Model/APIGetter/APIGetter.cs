@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -52,6 +53,30 @@ namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
 
             return APIValues;
         }
+        public static async Task<JsonDocument> APIPost(string apiURL, Dictionary<string, string> jsonContent)
+        {
+            HttpClient.DefaultRequestHeaders.Clear();
+
+            var loginRequest = new LoginRequest
+            {
+                Type = jsonContent.GetValueOrDefault("type"),
+                Identity = jsonContent.GetValueOrDefault("identity"),
+                Secret = jsonContent.GetValueOrDefault("secret") 
+            };
+            var json = JsonContent.Create(loginRequest);
+            HttpResponseMessage response = await HttpClient.PostAsync(apiURL, json);
+            response.EnsureSuccessStatusCode();
+
+            var jsonObject = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            return jsonObject;
+        }
+    }
+
+    public class LoginRequest
+    {
+        public string Type { get; set; }
+        public string Identity { get; set; }
+        public string Secret { get; set; }
     }
 
     public class APIValue

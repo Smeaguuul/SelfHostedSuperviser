@@ -22,5 +22,14 @@
             [ "http", "services", "total" ],
             [ "http", "middlewares", "total" ]
         ]
+    },
+    "NginxProxyManager": {
+        "BaseUrl": "http://192.168.1.132:81",
+        "names": [
+            [ "proxy" ],
+            [ "redirection" ],
+            [ "stream" ],
+            [ "dead" ]
+        ]
     }
 }

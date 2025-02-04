@@ -23,7 +23,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
 
             List<List<string>> names = GetNames(jsonElement);
 
-            Dictionary<string, string> headers = GetHeaders(secretsElement);
+            Dictionary<string, string> headers = await GetHeaders(secretsElement);
 
             string url = GetUrl(jsonElement);
 
@@ -34,7 +34,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
         }
 
         protected abstract string GetEndpoint();
-        protected abstract Dictionary<string, string> GetHeaders(JsonElement jsonElement);
+        protected abstract Task<Dictionary<string, string>> GetHeaders(JsonElement jsonElement);
         protected abstract string GetWebsiteName();
         protected string GetUrl(JsonElement jsonElement)
         {
@@ -60,7 +60,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
             }
             return names;
         }
-        private JsonElement GetJsonFile(string fileName)
+        protected JsonElement GetJsonFile(string fileName)
         {
             // Get the path to the solution directory
             string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));

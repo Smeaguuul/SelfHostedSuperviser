@@ -15,7 +15,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
             return "/api/server/statistics";
         }
 
-        protected override Dictionary<string, string> GetHeaders(JsonElement jsonElement)
+        protected override Task<Dictionary<string, string>> GetHeaders(JsonElement jsonElement)
         {
             var apiKey = jsonElement.GetProperty("immich_api_ley").GetString() ?? throw new Exception("Key: 'immich_api_key', not found in Secrets.json!");
             Dictionary<string, string> headers = new Dictionary<string, string>
@@ -23,7 +23,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
                 { "x-api-key", apiKey }
             };
 
-            return headers;
+            return new Task<Dictionary<string, string>>(() => headers);
         }
 
         protected override string GetWebsiteName()
