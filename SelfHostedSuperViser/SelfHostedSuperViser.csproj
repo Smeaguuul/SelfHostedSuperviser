@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
+    <Folder Include="Files\Images\" />
   </ItemGroup>
 
   <ItemGroup>

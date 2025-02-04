@@ -9,9 +9,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
+namespace SelfHostedSuperViser.Model
 {
-    public class APIGetter
+    public class RESTCommunicator
     {
         private static readonly HttpClient HttpClient = new HttpClient();
         public static async Task<List<APIValue>> APIGet(string apiURL, List<List<string>> names, Dictionary<string, string> headers)
@@ -61,7 +61,7 @@ namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
             {
                 Type = jsonContent.GetValueOrDefault("type"),
                 Identity = jsonContent.GetValueOrDefault("identity"),
-                Secret = jsonContent.GetValueOrDefault("secret") 
+                Secret = jsonContent.GetValueOrDefault("secret")
             };
             var json = JsonContent.Create(loginRequest);
             HttpResponseMessage response = await HttpClient.PostAsync(apiURL, json);
@@ -70,24 +70,5 @@ namespace SelfHostedSuperViser.Model.APIGetter.APIGetter
             var jsonObject = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
             return jsonObject;
         }
-    }
-
-    public class LoginRequest
-    {
-        public string Type { get; set; }
-        public string Identity { get; set; }
-        public string Secret { get; set; }
-    }
-
-    public class APIValue
-    {
-        public required string Value { get; set; }
-        public required string Name { get; set; }
-    }
-
-    public class Header
-    {
-        public required string Name { get; set; }
-        public required string Value { get; set; }
     }
 }

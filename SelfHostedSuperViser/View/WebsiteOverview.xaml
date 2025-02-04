@@ -8,7 +8,15 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         Background="#222222"
-        Title="WebsiteOverview" Height="720" Width="1280">
+        Title="WebsiteOverview" Height="900" Width="1600">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid x:Name="Outermost" MouseLeftButtonDown="Outermost_MouseLeftButtonDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
@@ -33,30 +41,62 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Background="#262626">
-                <TextBlock>Hello</TextBlock>
-                <TextBlock>Hello</TextBlock>
-                <TextBlock>Hello</TextBlock>
-                <TextBlock>Hello</TextBlock>
+                <!--<ListView Name="WebsiteList" ItemsSource="{Binding Websites}" Height="260">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>-->
             </StackPanel>
 
             <Grid Name="Websites" Grid.Column="1">
                 <TextBlock Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="26" Foreground="#DDDDDD" FontFamily="Segoe UI Symbol" >Welcome To Your Overview!</TextBlock>
-                <!--<WrapPanel Height="360">
-                    <Grid Width="160" Height="60" Background="#666666" Opacity="0.4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="AdguardHome" Foreground="White" HorizontalAlignment="Center" Grid.ColumnSpan="3"/>
-                        <TextBlock Grid.Row="1" FontSize="9" Foreground="#ffffff"> DNS Queries <LineBreak/> 4.600.321</TextBlock>
-                    </Grid>
-                </WrapPanel>-->
-                <Button x:Name="UpdateButton" Command="{Binding RefreshWebsiteData}" Height="20" Width="60" VerticalAlignment="Bottom" Content="Update"/>
+
+                <Grid>
+                    <ItemsControl ItemsSource="{Binding WebsiteAPIData}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#323232" CornerRadius="10"  Padding="10" Margin="5" Height="140">
+                                    <Grid Width="Auto" Height="Auto" Opacity="0.9">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Title -->
+                                        <TextBlock Grid.Row="0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="{Binding WebsiteName}" />
+
+                                        <!-- TextBlock for APIValues -->
+                                        <ItemsControl Grid.Row="1" ItemsSource="{Binding APIValues}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Rows="1" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Foreground="White" FontSize="10" Background="#464646" Padding="2" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                                        <TextBlock Foreground="White" FontSize="10" Background="#464646" Padding="2" Text="{Binding Value}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+
+                <Button x:Name="UpdateButton" Command="{Binding RefreshWebsiteData}" Width="200" Height="60" Content="Update" FontSize="16" FontWeight="Bold" Style="{StaticResource MyButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="505,774,0,0"/>
+                <Button x:Name="AddServiceButton" Command="{Binding ShowWindowCommand}" Width="200" Height="60" Content="Add Service" FontSize="16" FontWeight="Bold" Style="{StaticResource MyButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="815,774,0,0"/>
             </Grid>
         </Grid>
     </Grid>

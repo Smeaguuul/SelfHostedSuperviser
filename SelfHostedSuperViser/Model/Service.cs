@@ -8,12 +8,11 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using SelfHostedSuperViser.Model.APIGetter.APIGetter;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace SelfHostedSuperViser.Model.APIGetter
+namespace SelfHostedSuperViser.Model
 {
-    public class Service : WebsiteAPIModel
+    public class Service
     {
         public required string WebsiteName { get; set; }
         public async Task<List<APIValue>> CallAPIAsync()
@@ -27,9 +26,9 @@ namespace SelfHostedSuperViser.Model.APIGetter
 
             string url = GetUrl(jsonElement);
 
-            var result = await APIGetter.APIGetter.APIGet(url, names, headers);
+            var result = await RESTCommunicator.APIGet(url, names, headers);
 
-            result.Add(new APIValue() { Name = "Website", Value = WebsiteName });
+            //result.Add(new APIValue() { Name = "Website", Value = WebsiteName });
             return result;
         }
 
@@ -70,7 +69,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
             jsonContent.Add("secret", password);
             var url = apiCallsElement.GetProperty("BaseUrl").GetString();
 
-            var jsonToken = await APIGetter.APIGetter.APIPost(url + "/api/tokens", jsonContent);
+            var jsonToken = await RESTCommunicator.APIPost(url + "/api/tokens", jsonContent);
             var token = jsonToken.RootElement.GetProperty("token");
 
             Dictionary<string, string> headers = [];
@@ -112,7 +111,7 @@ namespace SelfHostedSuperViser.Model.APIGetter
                 foreach (JsonElement nameArray in namesElement.EnumerateArray())
                 {
                     List<string> apiValues = [];
-                    foreach(var name in nameArray.EnumerateArray())
+                    foreach (var name in nameArray.EnumerateArray())
                     {
                         apiValues.Add(name.GetString());
                     }
@@ -127,9 +126,9 @@ namespace SelfHostedSuperViser.Model.APIGetter
             string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
 
             // Combine the solution directory with the file name
-            string filePath = Path.Combine(solutionDirectory, "SelfHostedSuperViser", fileName);
+            string filePath = Path.Combine(solutionDirectory, "SelfHostedSuperViser", "Files/" + fileName);
             StreamReader reader = new(filePath);
-            var text =  reader.ReadToEnd();
+            var text = reader.ReadToEnd();
 
             return JsonDocument.Parse(text).RootElement;
         }

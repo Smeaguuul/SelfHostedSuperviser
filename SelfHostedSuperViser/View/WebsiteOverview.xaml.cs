@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SelfHostedSuperViser.Model.APIGetter.APIGetter;
+using SelfHostedSuperViser.Model;
 using SelfHostedSuperViser.ViewModel;
 
 namespace SelfHostedSuperViser.View
@@ -21,11 +21,11 @@ namespace SelfHostedSuperViser.View
     /// </summary>
     public partial class WebsiteOverview : Window
     {
-        private WebsiteInfoGetter _viewModel;
+        private WebsiteOverviewViewModel _viewModel;
         public WebsiteOverview()
         {
             InitializeComponent();
-            _viewModel = new WebsiteInfoGetter();
+            _viewModel = new WebsiteOverviewViewModel();
             this.DataContext = _viewModel;
 
             //Fire and forget, no await necessary
@@ -36,7 +36,7 @@ namespace SelfHostedSuperViser.View
         {
             await _viewModel.UpdateData();
 
-            AddWebsiteInfo();
+            //AddWebsiteInfo();
         }
 
         private void AddWebsiteInfo()
@@ -46,7 +46,7 @@ namespace SelfHostedSuperViser.View
                 var wrapPanel = new WrapPanel() { Height = 360 };
                 for (int i = 0; i < _viewModel.WebsiteAPIData.Count; i++)
                 {
-                    wrapPanel.Children.Add(GetAPIDataElement(_viewModel.WebsiteAPIData[i]));
+                    wrapPanel.Children.Add(GetAPIDataElement(_viewModel.WebsiteAPIData[i].APIValues));
                     //myTextBlock.SetBinding(TextBox.TextProperty, new Binding("FirstValue"));
                 }
                 Websites.Children.Add(wrapPanel);

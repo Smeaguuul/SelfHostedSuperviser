@@ -1,5 +1,5 @@
 using System.Xml.Linq;
-using SelfHostedSuperViser.Model.APIGetter.APIGetter;
+using SelfHostedSuperViser.Model;
 
 namespace SelfHostedSuperViser.Tests.Model;
 
@@ -25,7 +25,7 @@ public class APIGetTest
      
 
         // Act
-        var APIValues = await APIGetter.APIGet(Url, names, headers);
+        var APIValues = await RESTCommunicator.APIGet(Url, names, headers);
 
         // Assert
         Assert.AreEqual<int>(APIValues.Count, names.Count);
@@ -55,7 +55,7 @@ public class APIGetTest
         // Assert
         var Exception = await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
         {
-            await APIGetter.APIGet(Url, names, headers);
+            await RESTCommunicator.APIGet(Url, names, headers);
         });
         Assert.AreEqual(Exception.Message, "API property Non_existent_Property, doesn't exist!");
     }
