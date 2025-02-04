@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         Background="#222222"
-        Title="WebsiteOverview" Height="450" Width="800">
+        Title="WebsiteOverview" Height="720" Width="1280">
     <Grid x:Name="Outermost">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />

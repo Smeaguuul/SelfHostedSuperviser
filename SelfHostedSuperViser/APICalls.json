@@ -1,6 +1,8 @@
 {
     "AdguardHome": {
         "BaseUrl": "http://192.168.1.1:3000",
+        "Endpoint": "/control/stats",
+        "Authorization": "basic",
         "names": [
             [ "num_dns_queries" ],
             [ "num_blocked_filtering" ],
@@ -9,6 +11,8 @@
     },
     "Immich": {
         "BaseUrl": "https://immich.coomshack.com",
+        "Endpoint": "/api/server/statistics",
+        "Authorization": "api",
         "names": [
             [ "photos" ],
             [ "videos" ],
@@ -17,6 +21,8 @@
     },
     "Traefik": {
         "BaseUrl": "https://traefik-dashboard.local.coomshack.com",
+        "Endpoint": "/api/overview",
+        "Authorization": "basic",
         "names": [
             [ "http", "routers", "total" ],
             [ "http", "services", "total" ],
@@ -25,6 +31,8 @@
     },
     "NginxProxyManager": {
         "BaseUrl": "http://192.168.1.132:81",
+        "Endpoint": "/api/reports/hosts",
+        "Authorization": "bearer",
         "names": [
             [ "proxy" ],
             [ "redirection" ],

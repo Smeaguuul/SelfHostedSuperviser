@@ -11,26 +11,24 @@ public class APIGetTest
     {
         //Arrange
         var Url = "http://192.168.1.1:3000/control/stats";
-        var names = new string[]
+        var names = new List<List<string>>()
         {
-            "num_dns_queries",
-            "num_blocked_filtering",
-            "avg_processing_time"
+            new List<string>() { "num_dns_queries" },
+            new List<string>() { "num_blocked_filtering" },
+            new List<string>() { "avg_processing_time" },
         };
-        var headers = new Header[]
+        var headers = new Dictionary<string, string>
         {
-            new()
-            {
-                Name = "Authorization",
-                Value = "Basic Y29vbXNoYWNrOlNtaWtOb3RTaW1w",
-            }
+            { "Name", "Authorization" },
+            { "Value", "Basic Y29vbXNoYWNrOlNtaWtOb3RTaW1w" }
         };
+     
 
         // Act
         var APIValues = await APIGetter.APIGet(Url, names, headers);
 
         // Assert
-        Assert.AreEqual<int>(APIValues.Count, names.Length);
+        Assert.AreEqual<int>(APIValues.Count, names.Count);
         Assert.IsTrue(int.Parse(APIValues[0].Value) > 100000);
     }
 
@@ -39,20 +37,17 @@ public class APIGetTest
     {
         //Arrange
         var Url = "http://192.168.1.1:3000/control/stats";
-        var names = new string[]
+        var names = new List<List<string>>()
         {
-            "num_dns_queries",
-            "num_blocked_filtering",
-            "avg_processing_time",
-            "Non_existent_Property",
+            new List<string>() { "num_dns_queries" },
+            new List<string>() { "num_blocked_filtering" },
+            new List<string>() { "avg_processing_time" },
+            new List<string>() { "Non_existent_Property" },
         };
-        var headers = new Header[]
+        var headers = new Dictionary<string, string>
         {
-            new()
-            {
-                Name = "Authorization",
-                Value = "Basic Y29vbXNoYWNrOlNtaWtOb3RTaW1w",
-            }
+            { "Name", "Authorization" },
+            { "Value", "Basic Y29vbXNoYWNrOlNtaWtOb3RTaW1w" }
         };
 
         // Act

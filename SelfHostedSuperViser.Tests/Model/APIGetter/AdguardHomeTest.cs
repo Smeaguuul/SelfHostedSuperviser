@@ -1,4 +1,4 @@
-using SelfHostedSuperViser.Model.APIGetter.AdguardHome;
+using SelfHostedSuperViser.Model.APIGetter;
 
 namespace SelfHostedSuperViser.Tests;
 
@@ -11,7 +11,7 @@ public class AdguardHomeTest
         // Arrange
 
         //Act
-        var result = await new AdguardHome().CallAPIAsync();
+        var result = await new Service() { WebsiteName = "AdguardHome"}.CallAPIAsync();
 
         //Assert
         Assert.IsNotNull(result);

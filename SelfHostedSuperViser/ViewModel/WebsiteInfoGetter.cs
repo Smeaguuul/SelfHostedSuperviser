@@ -10,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using SelfHostedSuperViser.Commands;
 using SelfHostedSuperViser.Model.APIGetter;
-using SelfHostedSuperViser.Model.APIGetter.AdguardHome;
 using SelfHostedSuperViser.Model.APIGetter.APIGetter;
 
 namespace SelfHostedSuperViser.ViewModel
@@ -35,10 +34,10 @@ namespace SelfHostedSuperViser.ViewModel
             websiteAPIModels = [];
             RefreshWebsiteData = new UpdateWebsiteInfoCommand { WebsiteInfoGetter = this };
 
-            websiteAPIModels.Add(() => new NginxProxyManager().CallAPIAsync());
-            websiteAPIModels.Add(() => new AdguardHome().CallAPIAsync());
-            websiteAPIModels.Add(() => new Immich().CallAPIAsync());
-            websiteAPIModels.Add(() => new Traefik().CallAPIAsync());
+            websiteAPIModels.Add(() => new Service() { WebsiteName = "NginxProxyManager" }.CallAPIAsync());
+            websiteAPIModels.Add(() => new Service() { WebsiteName = "AdguardHome" }.CallAPIAsync());
+            websiteAPIModels.Add(() => new Service() { WebsiteName = "Immich" }.CallAPIAsync());
+            websiteAPIModels.Add(() => new Service() { WebsiteName = "Traefik" }.CallAPIAsync());
         }
 
         public async Task UpdateData()
