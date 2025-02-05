@@ -14,7 +14,7 @@ namespace SelfHostedSuperViser.Model
     public class RESTCommunicator
     {
         private static readonly HttpClient HttpClient = new HttpClient();
-        public static async Task<List<APIValue>> APIGet(string apiURL, List<List<string>> names, Dictionary<string, string> headers)
+        public static async Task<List<APIValue>> APIGet(string apiURL, List<APIValue> apiValues, Dictionary<string, string> headers)
         {
             HttpClient.DefaultRequestHeaders.Clear();
             foreach (var header in headers)
@@ -27,31 +27,25 @@ namespace SelfHostedSuperViser.Model
 
             var jsonObject = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
 
-            List<APIValue> APIValues = new List<APIValue>();
-            foreach (var nameList in names)
+            foreach (var apiValue in apiValues)
             {
+                var names = apiValue.Names;
                 string value;
                 try
                 {
                     JsonElement tempObj = jsonObject.RootElement;
-                    nameList.ForEach(x => { tempObj = tempObj.GetProperty(x); });
+                    names.ForEach(x => { tempObj = tempObj.GetProperty(x); });
                     value = tempObj.GetRawText();
                 }
                 catch
                 {
-                    throw new ArgumentException($"API property {nameList[nameList.Count - 1]} doesn't exist!");
+                    throw new ArgumentException($"API property {names[names.Count - 1]} doesn't exist!");
                 }
 
-                var APIValue = new APIValue()
-                {
-                    Name = nameList[nameList.Count - 1],
-                    Value = value,
-                };
-
-                APIValues.Add(APIValue);
+                apiValue.Value = value;
             }
 
-            return APIValues;
+            return apiValues;
         }
         public static async Task<JsonDocument> APIPost(string apiURL, Dictionary<string, string> jsonContent)
         {

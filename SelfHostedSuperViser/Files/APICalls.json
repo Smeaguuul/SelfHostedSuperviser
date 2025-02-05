@@ -3,41 +3,83 @@
         "BaseUrl": "http://192.168.1.1:3000",
         "Endpoint": "/control/stats",
         "Authorization": "basic",
-        "names": [
-            [ "num_dns_queries" ],
-            [ "num_blocked_filtering" ],
-            [ "avg_processing_time" ]
+        "APIValues": [
+            {
+                "names": [ "num_dns_queries" ],
+                "displayName": "Queries"
+            },
+            {
+                "names": [ "num_blocked_filtering" ],
+                "displayName": "Blocked"
+            },
+            {
+                "names": [ "avg_processing_time" ],
+                "displayName": "Processing Time"
+            }
         ]
     },
     "Immich": {
         "BaseUrl": "https://immich.coomshack.com",
         "Endpoint": "/api/server/statistics",
         "Authorization": "api",
-        "names": [
-            [ "photos" ],
-            [ "videos" ],
-            [ "usage" ]
+        "APIValues": [
+            {
+                "names": [ "photos" ],
+                "displayName": "Photos"
+            },
+            {
+                "names": [ "videos" ],
+                "displayName": "Videos"
+            },
+            {
+                "names": [ "usage" ],
+                "displayName": "Usage"
+            }
         ]
     },
     "Traefik": {
         "BaseUrl": "https://traefik-dashboard.local.coomshack.com",
         "Endpoint": "/api/overview",
         "Authorization": "basic",
-        "names": [
-            [ "http", "routers", "total" ],
-            [ "http", "services", "total" ],
-            [ "http", "middlewares", "total" ]
+        "APIValues": [
+            {
+                "names": [ "http", "routers", "total" ],
+                "displayName": "Routers"
+            },
+            {
+                "names": [ "http", "services", "total" ],
+                "displayName": "Services"
+            },
+            {
+                "names": [ "http", "middlewares", "total" ],
+                "displayName": "Middlewares"
+            }
         ]
     },
     "NginxProxyManager": {
         "BaseUrl": "http://192.168.1.132:81",
         "Endpoint": "/api/reports/hosts",
         "Authorization": "bearer",
-        "names": [
-            [ "proxy" ],
-            [ "redirection" ],
-            [ "stream" ],
-            [ "dead" ]
+        "APIValues": [
+            {
+                "names": [ "proxy" ],
+                "displayName": "Proxies"
+            },
+
+            {
+                "names": [ "redirection" ],
+                "displayName": "Redirections"
+            },
+
+            {
+                "names": [ "stream" ],
+                "displayName": "Stream"
+            },
+
+            {
+                "names": [ "dead" ],
+                "displayName": "Dead"
+            }
         ]
     }
 }

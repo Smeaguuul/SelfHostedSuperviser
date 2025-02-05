@@ -15,35 +15,36 @@ namespace SelfHostedSuperViser.Model
     public class Service
     {
         public required string WebsiteName { get; set; }
+        private JsonElement _JsonElement { get; set; }
+        private JsonElement _SecretsElement { get; set; }
         public async Task<List<APIValue>> CallAPIAsync()
         {
-            var jsonElement = GetJsonFile("APICalls.json").GetProperty(WebsiteName); ;
-            var secretsElement = GetJsonFile("Secrets.json");
+            _JsonElement = GetJsonFile("APICalls.json").GetProperty(WebsiteName); ;
+            _SecretsElement = GetJsonFile("Secrets.json");
 
-            List<List<string>> names = GetNames(jsonElement);
+            List<APIValue> names = GetAPIValues();
 
-            Dictionary<string, string> headers = await GetHeaders(secretsElement, jsonElement);
+            Dictionary<string, string> headers = await GetHeaders();
 
-            string url = GetUrl(jsonElement);
+            string url = GetUrl();
 
             var result = await RESTCommunicator.APIGet(url, names, headers);
 
-            //result.Add(new APIValue() { Name = "Website", Value = WebsiteName });
             return result;
         }
 
-        protected static string GetEndpoint(JsonElement apiCallsElement)
+        protected string GetEndpoint()
         {
-            var endpoint = apiCallsElement.GetProperty("Endpoint").GetString();
+            var endpoint = _JsonElement.GetProperty("Endpoint").GetString();
             return endpoint;
         }
-        protected async Task<Dictionary<string, string>> GetHeaders(JsonElement secretsElement, JsonElement apiCallsElement)
+        protected async Task<Dictionary<string, string>> GetHeaders()
         {
-            string authType = GetAuthType(apiCallsElement);
+            string authType = GetAuthType();
             var headers = new Dictionary<string, string>();
-            if (authType == "basic") headers = AuthorizationBasic(secretsElement);
-            if (authType == "bearer") headers = await AuthorizationBearer(secretsElement, apiCallsElement);
-            if (authType == "api") headers = AuthorizationAPI(secretsElement);
+            if (authType == "basic") headers = AuthorizationBasic(_SecretsElement);
+            if (authType == "bearer") headers = await AuthorizationBearer(_SecretsElement, _JsonElement);
+            if (authType == "api") headers = AuthorizationAPI(_SecretsElement);
 
             return headers;
         }
@@ -91,34 +92,35 @@ namespace SelfHostedSuperViser.Model
 
             return headers;
         }
-        private static string GetAuthType(JsonElement jsonElement)
+        private string GetAuthType()
         {
-            var authType = jsonElement.GetProperty("Authorization").GetString();
+            var authType = _JsonElement.GetProperty("Authorization").GetString();
             return authType;
         }
-        protected string GetUrl(JsonElement jsonElement)
+        protected string GetUrl()
         {
-            return jsonElement.GetProperty("BaseUrl").GetString() + GetEndpoint(jsonElement);
+            return _JsonElement.GetProperty("BaseUrl").GetString() + GetEndpoint();
         }
-        protected static List<List<string>> GetNames(JsonElement jsonElement)
+        protected List<APIValue> GetAPIValues()
         {
-            List<List<string>> names = [];
+            List<APIValue> apiValues = [];
 
-            // "names" er en array af string arrays.
-            JsonElement namesElement = jsonElement.GetProperty("names");
-            if (namesElement.ValueKind == JsonValueKind.Array)
+            // "APIValues" er en array af apivalues, som også indeholder en array af "names" / api værdier som ønskes
+            JsonElement apiValueElements = _JsonElement.GetProperty("APIValues");
+            if (apiValueElements.ValueKind == JsonValueKind.Array)
             {
-                foreach (JsonElement nameArray in namesElement.EnumerateArray())
+                foreach (JsonElement apiValue in apiValueElements.EnumerateArray())
                 {
-                    List<string> apiValues = [];
-                    foreach (var name in nameArray.EnumerateArray())
+                    string displayName = apiValue.GetProperty("displayName").GetString() ?? "Name Not Found!";
+                    List<string> names = [];
+                    foreach (var name in apiValue.GetProperty("names").EnumerateArray())
                     {
-                        apiValues.Add(name.GetString());
+                        names.Add(name.GetString());
                     }
-                    names.Add(apiValues);
+                    apiValues.Add(new APIValue() { DisplayName = displayName, Names = names});
                 }
             }
-            return names;
+            return apiValues;
         }
         protected JsonElement GetJsonFile(string fileName)
         {

@@ -8,7 +8,8 @@ namespace SelfHostedSuperViser.Model
 {
     public class APIValue
     {
-        public required string Value { get; set; }
-        public required string Name { get; set; }
+        public required List<string> Names { get; set; }
+        public string Value { get; set; }
+        public required string DisplayName { get; set; }
     }
 }

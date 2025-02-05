@@ -82,7 +82,7 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel>
-                                                        <TextBlock Foreground="White" FontSize="10" Background="#464646" Padding="2" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                                        <TextBlock Foreground="White" FontSize="10" Background="#464646" Padding="2" Text="{Binding DisplayName}" TextWrapping="Wrap" VerticalAlignment="Center" />
                                                         <TextBlock Foreground="White" FontSize="10" Background="#464646" Padding="2" Text="{Binding Value}" TextWrapping="Wrap" VerticalAlignment="Center" />
                                                     </StackPanel>
                                                 </DataTemplate>

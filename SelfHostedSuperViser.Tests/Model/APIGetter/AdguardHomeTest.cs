@@ -1,4 +1,4 @@
-using SelfHostedSuperViser.Model.APIGetter;
+using SelfHostedSuperViser.Model;
 
 namespace SelfHostedSuperViser.Tests;
 
