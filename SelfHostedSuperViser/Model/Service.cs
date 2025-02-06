@@ -51,7 +51,7 @@ namespace SelfHostedSuperViser.Model
 
         private Dictionary<string, string> AuthorizationAPI(JsonElement secretsElement)
         {
-            var apiKey = secretsElement.GetProperty(WebsiteName + "_api_ley").GetString() ?? throw new Exception("Key: 'api_key', not found in Secrets.json!");
+            var apiKey = secretsElement.GetProperty(WebsiteName + "_api_key").GetString() ?? throw new Exception("Key: 'api_key', not found in Secrets.json!");
             Dictionary<string, string> headers = new Dictionary<string, string>
             {
                 { "x-api-key", apiKey }

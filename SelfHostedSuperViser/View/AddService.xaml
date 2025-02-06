@@ -5,8 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SelfHostedSuperViser.View"
         mc:Ignorable="d"
+        Background="#222222"
         Title="AddService" Height="450" Width="800">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" Content="WebsiteName: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></Label>
+        <TextBox x:Name="WebsiteName" Text="{Binding WebsiteName, Mode=TwoWay}"  Grid.Column="2" Height="25" Width="150" Background="#222222" BorderThickness="0,0,0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></TextBox>
+        <Label Grid.Row="1" Grid.Column="1" Content="Base URL: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></Label>
+        <TextBox x:Name="BaseUrl" Text="{Binding BaseUrl, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" Height="25" Width="150" Background="#222222" BorderThickness="0,0,0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></TextBox>
+        <Label Grid.Row="2" Grid.Column="1" Content="Endpoint: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></Label>
+        <TextBox x:Name="Endpoint" Text="{Binding Endpoint, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" Height="25" Width="150" Background="#222222" BorderThickness="0,0,0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></TextBox>
+        <Label Grid.Row="3" Grid.Column="1" Content="Security Protocol:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></Label>
+        <ComboBox x:Name="Protocol" Grid.Row="3" Grid.Column="2" Height="25" Width="150" SelectedIndex="0">
+            <ComboBoxItem Content="api" />
+            <ComboBoxItem Content="basic" />
+            <ComboBoxItem Content="bearer" />
+        </ComboBox>
+        <Label Grid.Row="4" Grid.Column="1" Content="Username/Email: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></Label>
+        <TextBox x:Name="User" Text="{Binding User, Mode=TwoWay}" Grid.Row="4" Grid.Column="2" Height="25" Width="150" Background="#222222" BorderThickness="0,0,0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></TextBox>
+        <Label Grid.Row="5" Grid.Column="1" Content="Password: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></Label>
+        <TextBox x:Name="Password" Text="{Binding Password, Mode=TwoWay}" Grid.Row="5" Grid.Column="2" Height="25" Width="150" Background="#222222" BorderThickness="0,0,0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></TextBox>
+        <Label Grid.Row="6" Grid.Column="1" Content="API Key: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></Label>
+        <TextBox x:Name="APIKey" Text="{Binding APIKey, Mode=TwoWay}" Grid.Row="6" Grid.Column="2" Height="25" Width="150" Background="#222222" BorderThickness="0,0,0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#dddddd"></TextBox>
+
+
+        <Button Grid.Column="2" Grid.Row=" 7" x:Name="UpdateButton" Command="{Binding AddServiceCommand}" Width="80" Height="30" Content="Update" FontSize="12" FontWeight="Bold" Style="{StaticResource MyButton}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
     </Grid>
 </Window>

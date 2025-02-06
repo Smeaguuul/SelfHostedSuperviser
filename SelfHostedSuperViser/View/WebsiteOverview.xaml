@@ -41,13 +41,6 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Background="#262626">
-                <!--<ListView Name="WebsiteList" ItemsSource="{Binding Websites}" Height="260">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
             </StackPanel>
 
             <Grid Name="Websites" Grid.Column="1">
